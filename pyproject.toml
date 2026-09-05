@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "physix-studio"
+version = "0.1.0"
+description = "Synchronized physics simulation and scientific animation primitives"
+readme = "README.md"
+requires-python = ">=3.12"
+authors = [{name = "PhysiX Studio Contributors"}]
+license = {file = "LICENSE"}
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.10"]
+manim = ["manim>=0.18"]
+all = ["pytest>=8.0", "ruff>=0.6", "mypy>=1.10", "manim>=0.18"]
+
+[project.scripts]
+physix = "physix.cli.main:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/physix"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["B905", "UP046"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
