@@ -22,7 +22,7 @@ def build_parser() -> argparse.ArgumentParser:
     sub.add_parser("version", help="show version")
     sub.add_parser("list", help="list templates")
     render = sub.add_parser("render", help="render a cinematic scene with optional Manim")
-    render.add_argument("name", choices=["moon-ascent"])
+    render.add_argument("name", choices=["moon-ascent", "orbital-mechanics"])
     render.add_argument("--quality", choices=["draft", "standard", "high", "production"], default="standard")
     render.add_argument("--output", type=Path, default=Path("media"))
     return parser
@@ -34,13 +34,13 @@ def main(argv: list[str] | None = None) -> int:
         print("physix-studio 0.1.0")
         return 0
     if args.command == "list":
-        print("templates: moon-ascent, vertical-motion")
+        print("templates: moon-ascent, orbital-mechanics, vertical-motion")
         return 0
     if args.command == "render":
         from physix.renderers.manim import ManimRenderer, ManimUnavailableError
 
         try:
-            result = ManimRenderer().render(None, args.output, get_quality(args.quality))
+            result = ManimRenderer().render(None, args.output, get_quality(args.quality), args.name)
         except ManimUnavailableError as exc:
             raise SystemExit(str(exc)) from exc
         print(result)

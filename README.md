@@ -6,7 +6,7 @@ PhysiX Studio is an open-source Python foundation for deterministic physics simu
 
 ## Current MVP
 
-This first implementation provides a typed immutable `PhysicsState`, a deterministic `TimelineController`, analytical and numerical constant-acceleration motion, event detection, replayable state history, coordinate-safe `LiveGraph`, generic `ObjectGraphCursor`, centralized themes, a CLI, and a tested Moon Ascent data pipeline. The physics layer has no visualization dependency. Manim adapters are intentionally deferred until the core contracts are stable.
+This implementation provides a typed immutable `PhysicsState`, a deterministic `TimelineController`, analytical and numerical constant-acceleration motion, event detection, replayable state history, coordinate-safe `LiveGraph`, generic `ObjectGraphCursor`, centralized themes, a CLI, a tested Moon Ascent data pipeline, and a deterministic circular-orbit model. The physics layer has no visualization dependency. Manim adapters remain optional.
 
 ## Quickstart
 
@@ -28,9 +28,18 @@ Manim is an optional renderer adapter, never the physics clock:
 ```bash
 pip install -e ".[manim]"
 physix render moon-ascent --quality draft --output ./media
+physix render orbital-mechanics --quality draft --output ./media
 ```
 
-The supported quality profiles are `draft`, `standard`, `high`, and `production`. Users who only need the simulation core do not install Manim. See [`docs/rendering/`](docs/rendering/) for the rendering architecture and known limitations.
+The supported scenes are `moon-ascent` and `orbital-mechanics`; quality profiles are `draft`, `standard`, `high`, and `production`. Users who only need the simulation core do not install Manim. See [`docs/rendering/`](docs/rendering/) for the rendering architecture and scene guides.
+
+### Orbital mechanics preview
+
+The orbital scene synchronizes a planet, orbit trail, radius vector, velocity vector, equation panel, and live telemetry from one analytical circular-orbit state.
+
+![Orbital mechanics scene](docs/assets/orbital-mechanics.png)
+
+See [`docs/rendering/orbital-mechanics.md`](docs/rendering/orbital-mechanics.md) for the model and rendering details.
 
 ## Architecture
 
@@ -45,7 +54,7 @@ There are no independent object, graph, or dashboard timers. A renderer samples 
 
 ## Roadmap
 
-The next milestone is a Manim Community Edition adapter for Earth, Moon, stars, trail, dashboard, and progressive graph reveal. Future physics modules include projectile motion, mechanics, waves, electromagnetism, and orbital systems.
+Future physics modules include eccentric orbits, N-body mechanics, projectile motion, waves, and electromagnetism.
 
 ## Contributing
 
