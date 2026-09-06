@@ -29,17 +29,31 @@ Manim is an optional renderer adapter, never the physics clock:
 pip install -e ".[manim]"
 physix render moon-ascent --quality draft --output ./media
 physix render orbital-mechanics --quality draft --output ./media
+physix preview orbital-mechanics --quality draft
+physix preview quantum-collapse --quality draft
 ```
 
-The supported scenes are `moon-ascent` and `orbital-mechanics`; quality profiles are `draft`, `standard`, `high`, and `production`. Users who only need the simulation core do not install Manim. See [`docs/rendering/`](docs/rendering/) for the rendering architecture and scene guides.
+The supported scenes are `moon-ascent`, `orbital-mechanics`, and `quantum-collapse`; quality profiles are `draft`, `standard`, `high`, and `production`. Use `physix preview ...` to render and open the animation in the local video player for a real-time user-facing preview. Use `physix render ...` to save an MP4. Users who only need the simulation core do not install Manim. See [`docs/rendering/`](docs/rendering/) for the rendering architecture and scene guides.
 
 ### Orbital mechanics preview
 
-The orbital scene synchronizes a planet, orbit trail, radius vector, velocity vector, equation panel, and live telemetry from one analytical circular-orbit state.
+The orbital scene synchronizes a planet, elliptical orbit trail, equal-area sweep, radius vector, velocity vector, Kepler equation panel, and live telemetry from one analytical orbital state.
 
 ![Orbital mechanics scene](docs/assets/orbital-mechanics.png)
 
 See [`docs/rendering/orbital-mechanics.md`](docs/rendering/orbital-mechanics.md) for the model and rendering details.
+
+### Video demo
+
+[Download or play the verified 1920×1080 60 fps orbital mechanics demo](docs/assets/orbital-mechanics-1080p60.mp4).
+
+### Quantum wave-packet collapse
+
+The quantum scene shows two Gaussian wave packets in superposition and animates measurement into the right-hand collapsed state.
+
+![Quantum wave-packet collapse](docs/assets/quantum-collapse.png)
+
+See [`docs/rendering/quantum-collapse.md`](docs/rendering/quantum-collapse.md) for the scene details and preview command.
 
 ## Architecture
 

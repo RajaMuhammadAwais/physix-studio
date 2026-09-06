@@ -28,15 +28,46 @@ class ManimRenderer:
             "orbital-mechanics": (
                 "src/physix/renderers/manim/orbital_scene.py", "OrbitalMechanicsScene"
             ),
+            "quantum-collapse": (
+                "src/physix/renderers/manim/quantum_scene.py", "WavePacketCollapseScene"
+            ),
         }
         try:
             scene_file, scene_class = scenes[scene_name]
         except KeyError as exc:
             raise ValueError(f"Unknown Manim scene: {scene_name}") from exc
-        command = ["python", "-m", "manim", f"-q{self.QUALITY_FLAGS[quality.name]}",
-                   "--media_dir", str(output), scene_file, scene_class]
+        command = [
+            "python", "-m", "manim", f"-q{self.QUALITY_FLAGS[quality.name]}",
+            "--fps", str(quality.frame_rate), "--media_dir", str(output), scene_file, scene_class,
+        ]
         subprocess.run(command, check=True)
         videos = sorted(output.rglob(f"{scene_class}.mp4"))
         if not videos:
             raise RuntimeError(f"Manim completed but no {scene_class}.mp4 found in {output}")
         return videos[-1]
+
+    def preview(self, quality: RenderQuality, scene_name: str = "moon-ascent") -> None:
+        """Render a scene and open it in Manim's local video player."""
+
+        if importlib.util.find_spec("manim") is None:
+            raise ManimUnavailableError(
+                "Manim is not installed. Install it with: pip install 'physix-studio[manim]'"
+            )
+        scenes = {
+            "moon-ascent": ("src/physix/renderers/manim/scene.py", "MoonAscentScene"),
+            "orbital-mechanics": (
+                "src/physix/renderers/manim/orbital_scene.py", "OrbitalMechanicsScene"
+            ),
+            "quantum-collapse": (
+                "src/physix/renderers/manim/quantum_scene.py", "WavePacketCollapseScene"
+            ),
+        }
+        try:
+            scene_file, scene_class = scenes[scene_name]
+        except KeyError as exc:
+            raise ValueError(f"Unknown Manim scene: {scene_name}") from exc
+        command = [
+            "python", "-m", "manim", "-p", f"-q{self.QUALITY_FLAGS[quality.name]}",
+            "--fps", str(quality.frame_rate), scene_file, scene_class,
+        ]
+        subprocess.run(command, check=True)

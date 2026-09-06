@@ -17,7 +17,7 @@ class RenderQuality:
 QUALITIES = {
     "draft": RenderQuality("draft", 854, 480, 15),
     "standard": RenderQuality("standard", 1280, 720, 30),
-    "high": RenderQuality("high", 1920, 1080, 30),
+    "high": RenderQuality("high", 1920, 1080, 60),
     "production": RenderQuality("production", 3840, 2160, 60),
 }
 

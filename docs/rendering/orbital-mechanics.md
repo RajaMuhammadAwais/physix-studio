@@ -1,18 +1,24 @@
 # Orbital Mechanics Scene
 
-`OrbitalMechanicsScene` is a deterministic Manim visualization of a normalized circular two-body orbit. The analytical model in `examples/orbital_mechanics.py` supplies the planet position, tangential velocity, constant orbital speed, and inward gravitational acceleration. Manim is only the projection layer.
+`OrbitalMechanicsScene` is a deterministic Manim visualization of a normalized eccentric two-body orbit. The analytical model in `examples/orbital_mechanics.py` solves Kepler's equation and supplies the planet position, tangential velocity, radius, speed, gravitational acceleration, and swept area. Manim is only the projection layer.
 
-The scene includes a central body, orbit path, moving planet, bounded trail, radius vector, velocity vector, the equation `v = sqrt(mu/r)`, and synchronized telemetry for time, radius, speed, and acceleration.
+The scene includes a central focus, elliptical orbit path, moving planet, bounded trail, radius vector, velocity vector, a live swept-area polygon, the equation `dA/dt = constant`, and synchronized telemetry. The highlighted swept area makes **Kepler's second law** visible: equal time intervals sweep equal areas.
 
-Render it locally with:
+Preview it interactively for a user-facing real-time animation:
 
 ```bash
 pip install -e ".[manim]"
-physix render orbital-mechanics --quality draft --output ./media
+physix preview orbital-mechanics --quality draft
 ```
 
-The verified draft render is a 10-second, 480p15 MP4. A representative frame is included below.
+Export a saved video:
 
-![Orbital mechanics scene](../assets/orbital-mechanics.png)
+```bash
+physix render orbital-mechanics --quality high --output ./media
+```
 
-The model uses normalized units (`AU`, `AU/s`, and `AU/s²`) for educational clarity. It is intentionally circular rather than a full numerical N-body integrator; the next orbital milestone can add eccentricity, multiple bodies, and conserved-energy diagnostics.
+The verified high-quality export is 1920×1080 at 60 fps. The repository includes the resulting MP4 at [`docs/assets/orbital-mechanics-1080p60.mp4`](../assets/orbital-mechanics-1080p60.mp4) and a representative frame below.
+
+![Elliptical orbital mechanics scene](../assets/orbital-mechanics.png)
+
+The model uses normalized units (`AU`, `AU/s`, and `AU/s²`) for educational clarity. It is a deterministic Keplerian ellipse rather than a full numerical N-body integrator; future work can add multiple bodies, perturbations, and conserved-energy diagnostics.
