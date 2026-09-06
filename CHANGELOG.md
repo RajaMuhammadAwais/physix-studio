@@ -4,4 +4,4 @@
 
 Added the optional Manim renderer architecture, renderer-neutral physics-to-scene coordinate mapping, procedural Earth/Moon/star/trail factories, progressive graph visualization, synchronized dashboard and equation adapters, render-quality profiles, `physix render moon-ascent`, renderer integration tests, and rendering documentation.
 
-A real video render was not verified in the current environment because Manim installation requires the native `pangocairo >= 1.30.0` dependency, which is unavailable. The CLI detects this situation and reports the optional installation command rather than claiming success.
+A real draft video render was verified locally after installing the optional Manim, Cairo/Pango, compiler, FFmpeg, and LaTeX dependencies. The resulting 12-second 480p15 `MoonAscentScene.mp4` was inspected for layout and synchronization; dashboard and equation anchoring were corrected before the final render.

@@ -1,3 +1,4 @@
+import importlib.util
 from pathlib import Path
 
 import pytest
@@ -36,5 +37,6 @@ def test_quality_validation_and_unavailable_renderer(tmp_path: Path):
     assert get_quality("draft").frame_rate == 15
     with pytest.raises(ValueError):
         get_quality("unknown")
-    with pytest.raises(ManimUnavailableError):
-        ManimRenderer().render(None, tmp_path, get_quality("draft"))
+    if importlib.util.find_spec("manim") is None:
+        with pytest.raises(ManimUnavailableError):
+            ManimRenderer().render(None, tmp_path, get_quality("draft"))
