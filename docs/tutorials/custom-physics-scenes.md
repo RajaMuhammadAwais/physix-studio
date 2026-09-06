@@ -1,6 +1,6 @@
 # Creating Custom Physics Scenes with the Physix CLI
 
-**Author:** Manus AI
+**Author:** Raja Muhammad Awais
 
 ## Overview
 
