@@ -12,30 +12,43 @@ class ManimUnavailableError(RuntimeError):
     pass
 
 
+SCENES = {
+    "moon-ascent": ("src/physix/renderers/manim/scene.py", "MoonAscentScene"),
+    "orbital-mechanics": (
+        "src/physix/renderers/manim/orbital_scene.py", "OrbitalMechanicsScene"
+    ),
+    "quantum-collapse": (
+        "src/physix/renderers/manim/quantum_scene.py", "WavePacketCollapseScene"
+    ),
+    "gravitational-lensing": (
+        "src/physix/renderers/manim/lensing_scene.py", "GravitationalLensingScene"
+    ),
+}
+
+
 class ManimRenderer:
     QUALITY_FLAGS = {"draft": "l", "standard": "m", "high": "h", "production": "p"}
 
-    def render(self, simulation: object, output: Path, quality: RenderQuality,
-               scene_name: str = "moon-ascent") -> Path:
-        del simulation  # The scene constructs the deterministic example pipeline itself.
+    @staticmethod
+    def _require_manim() -> None:
         if importlib.util.find_spec("manim") is None:
             raise ManimUnavailableError(
                 "Manim is not installed. Install it with: pip install 'physix-studio[manim]'"
             )
-        output.mkdir(parents=True, exist_ok=True)
-        scenes = {
-            "moon-ascent": ("src/physix/renderers/manim/scene.py", "MoonAscentScene"),
-            "orbital-mechanics": (
-                "src/physix/renderers/manim/orbital_scene.py", "OrbitalMechanicsScene"
-            ),
-            "quantum-collapse": (
-                "src/physix/renderers/manim/quantum_scene.py", "WavePacketCollapseScene"
-            ),
-        }
+
+    @staticmethod
+    def _scene(scene_name: str) -> tuple[str, str]:
         try:
-            scene_file, scene_class = scenes[scene_name]
+            return SCENES[scene_name]
         except KeyError as exc:
             raise ValueError(f"Unknown Manim scene: {scene_name}") from exc
+
+    def render(self, simulation: object, output: Path, quality: RenderQuality,
+               scene_name: str = "moon-ascent") -> Path:
+        del simulation
+        self._require_manim()
+        output.mkdir(parents=True, exist_ok=True)
+        scene_file, scene_class = self._scene(scene_name)
         command = [
             "python", "-m", "manim", f"-q{self.QUALITY_FLAGS[quality.name]}",
             "--fps", str(quality.frame_rate), "--media_dir", str(output), scene_file, scene_class,
@@ -49,23 +62,8 @@ class ManimRenderer:
     def preview(self, quality: RenderQuality, scene_name: str = "moon-ascent") -> None:
         """Render a scene and open it in Manim's local video player."""
 
-        if importlib.util.find_spec("manim") is None:
-            raise ManimUnavailableError(
-                "Manim is not installed. Install it with: pip install 'physix-studio[manim]'"
-            )
-        scenes = {
-            "moon-ascent": ("src/physix/renderers/manim/scene.py", "MoonAscentScene"),
-            "orbital-mechanics": (
-                "src/physix/renderers/manim/orbital_scene.py", "OrbitalMechanicsScene"
-            ),
-            "quantum-collapse": (
-                "src/physix/renderers/manim/quantum_scene.py", "WavePacketCollapseScene"
-            ),
-        }
-        try:
-            scene_file, scene_class = scenes[scene_name]
-        except KeyError as exc:
-            raise ValueError(f"Unknown Manim scene: {scene_name}") from exc
+        self._require_manim()
+        scene_file, scene_class = self._scene(scene_name)
         command = [
             "python", "-m", "manim", "-p", f"-q{self.QUALITY_FLAGS[quality.name]}",
             "--fps", str(quality.frame_rate), scene_file, scene_class,

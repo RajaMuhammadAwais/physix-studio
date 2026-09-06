@@ -31,9 +31,10 @@ physix render moon-ascent --quality draft --output ./media
 physix render orbital-mechanics --quality draft --output ./media
 physix preview orbital-mechanics --quality draft
 physix preview quantum-collapse --quality draft
+physix preview gravitational-lensing --quality draft
 ```
 
-The supported scenes are `moon-ascent`, `orbital-mechanics`, and `quantum-collapse`; quality profiles are `draft`, `standard`, `high`, and `production`. Use `physix preview ...` to render and open the animation in the local video player for a real-time user-facing preview. Use `physix render ...` to save an MP4. Users who only need the simulation core do not install Manim. See [`docs/rendering/`](docs/rendering/) for the rendering architecture and scene guides.
+The supported scenes are `moon-ascent`, `orbital-mechanics`, `quantum-collapse`, and `gravitational-lensing`; quality profiles are `draft`, `standard`, `high`, and `production`. Use `physix preview ...` to render and open the animation in the local video player for a real-time user-facing preview. Use `physix render ...` to save an MP4. Users who only need the simulation core do not install Manim. See [`docs/rendering/`](docs/rendering/) for the rendering architecture and scene guides.
 
 ### Orbital mechanics preview
 
@@ -54,6 +55,18 @@ The quantum scene shows two Gaussian wave packets in superposition and animates 
 ![Quantum wave-packet collapse](docs/assets/quantum-collapse.png)
 
 See [`docs/rendering/quantum-collapse.md`](docs/rendering/quantum-collapse.md) for the scene details and preview command.
+
+### Gravitational lensing
+
+The relativistic scene visualizes a point-mass lens, Einstein radius, two apparent images, bent light paths, and magnification in the thin-lens approximation.
+
+See [`docs/rendering/gravitational-lensing.md`](docs/rendering/gravitational-lensing.md) for the scene details and preview command.
+
+![Gravitational lensing scene](docs/assets/gravitational-lensing.png)
+
+### Custom scene tutorial
+
+Read the [custom physics scenes tutorial](docs/tutorials/custom-physics-scenes.md) to learn how to define a deterministic model, build a Manim projection, register `render` and `preview` commands, write tests, inspect screenshots, and document a new scene.
 
 ## Architecture
 
